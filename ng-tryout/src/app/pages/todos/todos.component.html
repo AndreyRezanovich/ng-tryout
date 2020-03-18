@@ -1,0 +1,6 @@
+<h3>todo list</h3>
+<div>
+  <ul>
+    <li *ngFor="let todo of todos; let myIndex = index;">{{todo.text + myIndex}}</li>
+  </ul>
+</div>
