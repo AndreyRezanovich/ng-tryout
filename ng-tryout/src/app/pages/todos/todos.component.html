@@ -1,4 +1,10 @@
-<h3>todo list</h3>
+<div>
+  <h3>TODO List</h3>
+  <label>
+    <input type="text" placeholder="New Todo" [(ngModel)]="todoText">
+  </label>
+  <button (click)="addTodo()">Add Todo</button>
+</div>
 <div>
   <ul>
     <li *ngFor="let todo of todos;">{{todo.text}}<span class="delete"><button (click)="deleteTodo(todo)">Delete</button></span>

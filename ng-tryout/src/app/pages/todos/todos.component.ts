@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DataServiceService, Todo} from '../../services/data-service.service';
+import {map} from 'rxjs/operators';
 
 
 @Component({
@@ -9,6 +10,7 @@ import {DataServiceService, Todo} from '../../services/data-service.service';
 })
 export class TodosComponent implements OnInit {
   todos: Todo[];
+  todoText: string;
 
   constructor(
     private dataService: DataServiceService
@@ -27,6 +29,22 @@ export class TodosComponent implements OnInit {
     this.todos = this.todos.filter((t: Todo) => {
       return t.id !== todo.id;
     });
+  }
+
+  addTodo() {
+    if (this.todoText) {
+      const newTodo: Todo = {
+        id: this.todos.length ? Math.max.apply(this, this.todos.map((todo) => {
+          return todo.id;
+        })) + 1 : 0,
+        text: this.todoText
+      };
+      this.todos.push(newTodo);
+      this.todoText = '';
+      console.log(newTodo);
+    } else {
+      alert('This input must be заполненно');
+    }
   }
 
 }
