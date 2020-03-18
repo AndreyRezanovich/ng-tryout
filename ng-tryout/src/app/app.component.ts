@@ -10,4 +10,5 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
 
   title = 'ng-tryout';
+
 }
