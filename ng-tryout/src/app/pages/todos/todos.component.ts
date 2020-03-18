@@ -16,12 +16,17 @@ export class TodosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('on view init');
     this.dataService.fetchTodoList().subscribe(
       (todoList: Todo[]) => {
         this.todos = todoList;
       }
     );
+  }
+
+  deleteTodo(todo: Todo): void {
+    this.todos = this.todos.filter((t: Todo) => {
+      return t.id !== todo.id;
+    });
   }
 
 }
