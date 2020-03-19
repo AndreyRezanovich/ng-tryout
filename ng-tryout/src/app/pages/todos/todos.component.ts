@@ -41,7 +41,6 @@ export class TodosComponent implements OnInit {
       };
       this.todos.push(newTodo);
       this.todoText = '';
-      console.log(newTodo);
     } else {
       alert('This input must be заполненно');
     }
