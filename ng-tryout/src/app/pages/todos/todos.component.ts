@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {DataServiceService, Todo} from '../../services/data-service.service';
+import { Component, OnInit } from '@angular/core';
+import { DataServiceService, Todo } from '../../services/data-service.service';
 
 
 @Component({
@@ -7,6 +7,7 @@ import {DataServiceService, Todo} from '../../services/data-service.service';
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css']
 })
+
 export class TodosComponent implements OnInit {
   todos: Todo[];
   todoText: string;
@@ -30,7 +31,7 @@ export class TodosComponent implements OnInit {
     });
   }
 
-  addTodo() {
+  addTodo(): void {
     if (this.todoText) {
       const newTodo: Todo = {
         id: this.todos.length ? Math.max.apply(this, this.todos.map((todo) => {
@@ -44,5 +45,4 @@ export class TodosComponent implements OnInit {
       alert('This input must be заполненно');
     }
   }
-
 }
