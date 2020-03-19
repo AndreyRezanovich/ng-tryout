@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {DataServiceService, Todo} from '../../services/data-service.service';
-import {map} from 'rxjs/operators';
 
 
 @Component({
