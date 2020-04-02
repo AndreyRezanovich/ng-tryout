@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { DataServiceService, Todo } from '../../services/data-service.service';
+import {Component, OnInit} from '@angular/core';
+import {DataServiceService, ServerResponse, Status, Todo} from '../../services/data-service.service';
 
 
 @Component({
@@ -11,6 +11,7 @@ import { DataServiceService, Todo } from '../../services/data-service.service';
 export class TodosComponent implements OnInit {
   todos: Todo[];
   todoText: string;
+  editedTodoIndex: number;
 
   constructor(
     private dataService: DataServiceService
@@ -26,23 +27,49 @@ export class TodosComponent implements OnInit {
   }
 
   deleteTodo(todo: Todo): void {
-    this.todos = this.todos.filter((t: Todo) => {
-      return t.id !== todo.id;
+    this.editedTodoIndex = undefined;
+    this.dataService.removeTodo(todo.id).subscribe((response: ServerResponse) => {
+      if (response.status === Status.success) {
+        this.todos = this.todos.filter((t: Todo) => {
+          return t.id !== response.id;
+        });
+      }
     });
   }
 
   addTodo(): void {
     if (this.todoText) {
-      const newTodo: Todo = {
-        id: this.todos.length ? Math.max.apply(this, this.todos.map((todo) => {
-          return todo.id;
-        })) + 1 : 0,
-        text: this.todoText
-      };
-      this.todos.push(newTodo);
+      this.dataService.writeTodo(this.todoText).subscribe((newTodo: Todo) => {
+        const isTodoExist = this.todos.some((todo: Todo) => {
+          return todo.id === newTodo.id;
+        });
+        if (!isTodoExist) {
+          this.todos.push(newTodo);
+        }
+      });
       this.todoText = '';
     } else {
       alert('This input must be заполненно');
     }
+  }
+
+  clickTodo(todo): void {
+    this.dataService.getTodoById(todo.id).subscribe((t: Todo) => {
+      console.log(`You clicked on todo #${t.id}`);
+    });
+  }
+
+  editTodo(index) {
+    if (this.editedTodoIndex === index) {
+      this.dataService.updateTodo(this.todos[index]).subscribe((newTodo: Todo) => {
+        this.editedTodoIndex = undefined;
+      });
+    } else {
+      this.editedTodoIndex = index;
+    }
+  }
+
+  updateText($event: any) {
+    this.todos[this.editedTodoIndex].text = $event;
   }
 }

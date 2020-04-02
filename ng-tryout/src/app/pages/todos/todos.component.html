@@ -1,13 +1,22 @@
-<div>
-  <h3>TODO List</h3>
-  <label>
-    <input type="text" placeholder="New Todo" [(ngModel)]="todoText">
-  </label>
-  <button (click)="addTodo()">Add Todo</button>
-</div>
-<div>
-  <ul>
-    <li *ngFor="let todo of todos;">{{todo.text}}<span class="delete"><button (click)="deleteTodo(todo)">Delete</button></span>
-    </li>
-  </ul>
+<div class="todo">
+  <div class="todo_header">
+    <h1 class="todo_header_title">TODO List</h1>
+    <label>
+      <input class="todo_header_input" type="text" placeholder="  New Todo" [(ngModel)]="todoText">
+    </label>
+    <button (click)="addTodo()" class="add_button">Add Todo</button>
+  </div>
+  <div class="q">
+    <ul>
+      <li *ngFor="let todo of todos; let i = index">
+        <span *ngIf="editedTodoIndex !== i" (click)="clickTodo(todo)">{{todo.text}}</span>
+        <label>
+          <input class="todo_header_input" *ngIf="editedTodoIndex === i" type="text" [ngModel]="todo.text"
+                 (ngModelChange)="updateText($event)">
+        </label>
+        <span class="edit"><button class="edit_button" (click)="editTodo(i)">{{editedTodoIndex !== i ? 'Edit' : 'Save'}}</button></span>
+        <span class="delete"><button class="delete_button" (click)="deleteTodo(todo)">Delete</button></span>
+      </li>
+    </ul>
+  </div>
 </div>
