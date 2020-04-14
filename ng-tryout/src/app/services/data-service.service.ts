@@ -3,8 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 export interface Todo {
-  id: string;
+  _id: string;
   text: string;
+  // checked: boolean;
 }
 export enum Status {
   success = 'success',
@@ -12,7 +13,7 @@ export enum Status {
 }
 export interface ServerResponse {
   status: Status;
-  id: string;
+  _id: string;
 }
 
 @Injectable({
@@ -41,6 +42,11 @@ export class DataServiceService {
   }
 
   updateTodo(todo: Todo): Observable<Todo> {
-    return this.http.put<Todo>('http://localhost:4201/api/todos/' + todo.id, {text: todo.text});
+    return this.http.put<Todo>('http://localhost:4201/api/todos/' + todo._id, {text: todo.text});
+  }
+
+  findTodo(text): Observable<Todo[]> {
+    return this.http.get<Todo[]>('http://localhost:4201/api/todos?text=' + text);
   }
 }
+

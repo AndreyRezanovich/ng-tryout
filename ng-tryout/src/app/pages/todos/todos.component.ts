@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {DataServiceService, ServerResponse, Status, Todo} from '../../services/data-service.service';
+import { Component, OnInit } from '@angular/core';
+import { DataServiceService, ServerResponse, Status, Todo } from '../../services/data-service.service';
 
 
 @Component({
@@ -10,8 +10,13 @@ import {DataServiceService, ServerResponse, Status, Todo} from '../../services/d
 
 export class TodosComponent implements OnInit {
   todos: Todo[];
+  todosCopy: Todo[];
   todoText: string;
   editedTodoIndex: number;
+  searchText: string;
+  foundTodos: Todo[];
+
+
 
   constructor(
     private dataService: DataServiceService
@@ -21,17 +26,18 @@ export class TodosComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.fetchTodoList().subscribe(
       (todoList: Todo[]) => {
-        this.todos = todoList;
+        this.todos = this.todosCopy = todoList;
+        this.filterTodosArray();
       }
     );
   }
 
   deleteTodo(todo: Todo): void {
     this.editedTodoIndex = undefined;
-    this.dataService.removeTodo(todo.id).subscribe((response: ServerResponse) => {
+    this.dataService.removeTodo(todo._id).subscribe((response: ServerResponse) => {
       if (response.status === Status.success) {
         this.todos = this.todos.filter((t: Todo) => {
-          return t.id !== response.id;
+          return t._id !== response._id;
         });
       }
     });
@@ -41,7 +47,7 @@ export class TodosComponent implements OnInit {
     if (this.todoText) {
       this.dataService.writeTodo(this.todoText).subscribe((newTodo: Todo) => {
         const isTodoExist = this.todos.some((todo: Todo) => {
-          return todo.id === newTodo.id;
+          return todo._id === newTodo._id;
         });
         if (!isTodoExist) {
           this.todos.push(newTodo);
@@ -54,8 +60,8 @@ export class TodosComponent implements OnInit {
   }
 
   clickTodo(todo): void {
-    this.dataService.getTodoById(todo.id).subscribe((t: Todo) => {
-      console.log(`You clicked on todo #${t.id}`);
+    this.dataService.getTodoById(todo._id).subscribe((t: Todo) => {
+      console.log(`You clicked on todo #${t._id}`);
     });
   }
 
@@ -72,4 +78,24 @@ export class TodosComponent implements OnInit {
   updateText($event: any) {
     this.todos[this.editedTodoIndex].text = $event;
   }
+
+  searchTodo() {
+    this.dataService.findTodo(this.searchText).subscribe((todosArr: Todo[]) => {
+      this.foundTodos = todosArr;
+      this.searchText = undefined;
+      console.log(this.foundTodos);
+    });
+  }
+
+  resetTodo() {
+    this.foundTodos = [];
+  }
+
+  filterTodosArray(event?) {
+    const text = event?.target?.value || '';
+    this.todos = text ? this.todosCopy.filter(todo => todo.text === text) : this.todosCopy;
+    console.log(this.todos);
+  }
 }
+
+
