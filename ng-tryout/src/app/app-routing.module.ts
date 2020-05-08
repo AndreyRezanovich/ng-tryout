@@ -1,13 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TodosComponent} from "./pages/todos/todos.component";
 
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
     path: 'todos',
-    component: TodosComponent,
-    // loadChildren: 'app/pages/todos/todos.module#TodosModule',
+    // component: TodosComponent,
+    loadChildren: () => import('./pages/todos/todos.module').then(m => m.TodosModule),
+  },
+  {
+    path: 'login',
+    // component: LoginComponent,
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule),
   },
 ];
 
@@ -15,4 +24,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

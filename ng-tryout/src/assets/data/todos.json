@@ -1,14 +1,14 @@
 [
   {
     "id": 0,
-    "text": "first text"
+    "text": "First todo"
   },
   {
     "id": 1,
-    "text": "second text"
+    "text": "Second todo"
   },
   {
     "id": 2,
-    "text": "some text"
+    "text": "Third todo"
   }
 ]

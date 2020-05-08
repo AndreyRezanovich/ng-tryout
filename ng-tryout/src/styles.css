@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+li {
+  list-style: none;
+}
+
+/*.undone {*/
+/*  list-style: none;*/
+/*}*/
+
+/*.done {*/
+/*  list-style: none;*/
+/*  text-decoration: line-through;*/
+/*}*/
+
+.strikethroughTodo{
+  text-decoration: line-through;
+  color: darkgray;
+}
