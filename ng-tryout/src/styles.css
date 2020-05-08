@@ -1,5 +1,17 @@
 li {
   list-style: none;
-  /*text-decoration: line-through;*/
 }
 
+/*.undone {*/
+/*  list-style: none;*/
+/*}*/
+
+/*.done {*/
+/*  list-style: none;*/
+/*  text-decoration: line-through;*/
+/*}*/
+
+.strikethroughTodo{
+  text-decoration: line-through;
+  color: darkgray;
+}

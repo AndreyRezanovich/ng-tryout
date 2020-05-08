@@ -15,7 +15,7 @@ export class TodosComponent implements OnInit {
   editedTodoIndex: number;
   searchText: string;
   foundTodos: Todo[];
-
+  buttonName: any = 'Complete todo';
 
 
   constructor(
@@ -83,7 +83,6 @@ export class TodosComponent implements OnInit {
     this.dataService.findTodo(this.searchText).subscribe((todosArr: Todo[]) => {
       this.foundTodos = todosArr;
       this.searchText = undefined;
-      console.log(this.foundTodos);
     });
   }
 
@@ -94,7 +93,13 @@ export class TodosComponent implements OnInit {
   filterTodosArray(event?) {
     const text = event?.target?.value || '';
     this.todos = text ? this.todosCopy.filter(todo => todo.text === text) : this.todosCopy;
-    console.log(this.todos);
+  }
+
+  doneTodo(todo) {
+    todo.checked = !todo.checked;
+    this.dataService.updateTodo(todo).subscribe((updatedTodo: Todo) => {
+      todo = updatedTodo;
+    });
   }
 }
 
