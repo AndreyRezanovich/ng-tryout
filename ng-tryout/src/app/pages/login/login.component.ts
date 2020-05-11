@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { LoginCredentials, LoginService } from '../../services/login.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +14,11 @@ export class LoginComponent {
     login: '',
     password: '',
   };
+  private router: any;
 
-  constructor(
-    private loginService: LoginService
+  constructor(@Inject(DOCUMENT)
+              private document: Document,
+              private loginService: LoginService,
   ) {
   }
 
@@ -23,14 +26,18 @@ export class LoginComponent {
     if (this.credentials.login && this.credentials.password) {
       this.loginService.login(this.credentials).subscribe(res => {
         console.log(res);
+        this.goToTodoList();
       }, error => {
         console.log(error);
       });
     }
   }
 
+  goToTodoList(): void {
+    this.router.navigate(['todos']).then(err => err);
+  }
+
   createUser() {
     this.loginService.create(this.credentials).subscribe();
   }
-
 }
