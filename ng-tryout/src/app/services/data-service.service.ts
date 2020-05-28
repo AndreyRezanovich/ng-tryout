@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { createSubscription } from "../util/helpers";
 
 export interface Todo {
   checked: boolean;
@@ -18,7 +19,6 @@ export interface ServerResponse {
   status: Status;
   _id: string;
 }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -28,17 +28,9 @@ export class DataServiceService {
   }
 
 
-  // fetchTodoList() {
-  //   return new Observable((observer) => {
-  //     console.log('Connecting SSE on todos');
-  //     const evtSource = new EventSource(environment.API_URL + 'todos');
-  //     evtSource.addEventListener('message', event => {
-  //       const data = JSON.parse(event.data);
-  //       console.log(data);
-  //       observer.next(data);
-  //     });
-  //   });
-  // }
+  fetchTodoList(): Observable<any> {
+    return createSubscription('todos');
+  }
 
   // fetchTodoList(): Observable<Todo[]> {
   //   return this.http.get<Todo[]>(environment.API_URL + 'todos');
