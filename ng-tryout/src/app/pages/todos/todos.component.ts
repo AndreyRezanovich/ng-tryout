@@ -19,26 +19,37 @@ export class TodosComponent implements OnInit {
 
 
   constructor(
-    private dataService: DataServiceService
+    public dataService: DataServiceService
   ) {
   }
 
-  ngOnInit(): void {
-    this.dataService.fetchTodoList().subscribe(
-      (todoList: Todo[]) => {
-        this.todos = this.todosCopy = todoList;
-        this.filterTodosArray();
-      }
-    );
+
+  async ngOnInit(): Promise<void> {
+    const eventSource = new EventSource('http://localhost:3000/sse');
+    eventSource.addEventListener('message', event => {
+      const data = JSON.parse(event.data);
+      console.log(data);
+    });
   }
+
+  // ngOnInit(): void {
+  //   this.dataService.fetchTodoList().subscribe((todoList: Todo[]) => {
+  //       console.log(todoList);
+  //       this.todos = this.todosCopy = todoList;
+  //       this.filterTodosArray();
+  //     }
+  //   );
+  // }
+
 
   deleteTodo(todo: Todo): void {
     this.editedTodoIndex = undefined;
     this.dataService.removeTodo(todo._id).subscribe((response: ServerResponse) => {
       if (response.status === Status.success) {
         this.todos = this.todos.filter((t: Todo) => {
-          return t._id !== response._id;
+          return t._id !== todo._id;
         });
+        this.todosCopy = this.todos;
       }
     });
   }
@@ -83,6 +94,7 @@ export class TodosComponent implements OnInit {
     this.dataService.findTodo(this.searchText).subscribe((todosArr: Todo[]) => {
       this.foundTodos = todosArr;
       this.searchText = undefined;
+      console.log(this.foundTodos);
     });
   }
 
@@ -101,6 +113,8 @@ export class TodosComponent implements OnInit {
       todo = updatedTodo;
     });
   }
+
+
 }
 
 

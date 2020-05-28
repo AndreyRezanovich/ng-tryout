@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { LoginCredentials, LoginService } from '../../services/login.service';
 import { DOCUMENT } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,16 +10,17 @@ import { DOCUMENT } from '@angular/common';
 })
 
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public credentials: LoginCredentials = {
     login: '',
     password: '',
   };
-  private router: any;
+  // private router: any;
 
   constructor(@Inject(DOCUMENT)
               private document: Document,
               private loginService: LoginService,
+              public router: Router,
   ) {
   }
 
@@ -39,5 +41,14 @@ export class LoginComponent {
 
   createUser() {
     this.loginService.create(this.credentials).subscribe();
+  }
+
+  ngOnInit(): void {
+    // console.log('Connecting SSE on login');
+    // const evtSource = new EventSource('http://localhost:4201/connection');
+    // evtSource.addEventListener('message', event => {
+    //   const data = JSON.parse(event.data);
+    //   console.log(data);
+    // });
   }
 }
