@@ -14,17 +14,18 @@
         <input matInput placeholder=" " [(ngModel)]="todoText">
       </label>
     </mat-form-field>
-      <button mat-raised-button color="primary" (click)="addTodo()">Add Todo</button>
+    <button mat-raised-button color="primary" (click)="addTodo()">Add Todo</button>
   </div>
   <div class="q">
     <ul>
-      <li *ngFor="let todo of todos; let i = index" [class.strikethroughTodo]="todo.checked" >
-      <label>
-        <span *ngIf="editedTodoIndex !== i" (click)="clickTodo(todo); doneTodo(todo)">{{todo.text}}</span>
-        <input class="todo_header_input" *ngIf="editedTodoIndex === i" type="text" [ngModel]="todo.text"
-               (ngModelChange)="updateText($event)">
-      </label>
-        <span><button mat-stroked-button color="primary" (click)="editTodo(i)">{{editedTodoIndex !== i ? 'Edit' : 'Save'}}</button></span>
+      <li *ngFor="let todo of todos; let i = index" [class.strikethroughTodo]="todo.checked">
+        <label>
+          <span *ngIf="editedTodoIndex !== i" (click)="clickTodo(todo); doneTodo(todo)">{{todo.text}}</span>
+          <input class="todo_header_input" *ngIf="editedTodoIndex === i" type="text" [ngModel]="todo.text"
+                 (ngModelChange)="updateText($event)">
+        </label>
+        <span><button mat-stroked-button color="primary"
+                      (click)="editTodo(i)">{{editedTodoIndex !== i ? 'Edit' : 'Save'}}</button></span>
         <span><button mat-stroked-button color="primary" (click)="deleteTodo(todo)">Delete</button></span>
       </li>
     </ul>

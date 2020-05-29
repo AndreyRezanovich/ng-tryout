@@ -25,11 +25,17 @@ export class TodosComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
-    const eventSource = new EventSource('http://localhost:3000/sse');
-    eventSource.addEventListener('message', event => {
-      const data = JSON.parse(event.data);
-      console.log(data);
-    });
+    this.dataService.fetchTodoList().subscribe((todoList: Todo[]) => {
+        console.log(todoList);
+        this.todos = this.todosCopy = todoList;
+        this.filterTodosArray();
+      }
+    );
+    // const eventSource = new EventSource('http://localhost:4201/todos');
+    // eventSource.addEventListener('message', event => {
+    //   const data = JSON.parse(event.data);
+    //   console.log(data);
+    // });
   }
 
   // ngOnInit(): void {
@@ -77,8 +83,10 @@ export class TodosComponent implements OnInit {
   }
 
   editTodo(index) {
+    console.log('index', index);
     if (this.editedTodoIndex === index) {
       this.dataService.updateTodo(this.todos[index]).subscribe((newTodo: Todo) => {
+        console.log('updated');
         this.editedTodoIndex = undefined;
       });
     } else {
@@ -113,8 +121,4 @@ export class TodosComponent implements OnInit {
       todo = updatedTodo;
     });
   }
-
-
 }
-
-

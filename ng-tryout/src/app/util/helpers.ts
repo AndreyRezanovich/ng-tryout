@@ -3,7 +3,8 @@ import { environment } from '../../environments/environment';
 
 export const createSubscription = (route: string): Observable<any> => {
   return new Observable(observer => {
-    const evtSource = new EventSource(`${environment.API_URL}/${route}`);
+    const evtSource = new EventSource(`${environment.API_URL}${route}`);
+    console.log(evtSource);
     evtSource.addEventListener('message', event => {
       const data = JSON.parse(event.data);
       console.log(data);
