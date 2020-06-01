@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { createSubscription } from '../util/helpers';
 
 export interface Todo {
   checked: boolean;
@@ -29,31 +28,27 @@ export class DataServiceService {
 
 
   fetchTodoList(): Observable<Todo[]> {
-    return createSubscription('todos/sse');
+    return this.http.get<Todo[]>(environment.API_URL + 'todos');
   }
 
-  // fetchTodoList(): Observable<Todo[]> {
-  //   return this.http.get<Todo[]>(environment.API_URL + 'todos');
-  // }
-
   getTodoById(id): Observable<Todo> {
-    return this.http.get<Todo>(environment.API_URL + 'todos/' + id + '/getone');
+    return this.http.get<Todo>(environment.API_URL + 'todos/' + id + '/find');
   }
 
   writeTodo(text: string): Observable<Todo> {
-    return this.http.post<Todo>(environment.API_URL + 'todos' + '/create', { text });
+    return this.http.post<Todo>(environment.API_URL + 'todos', { text });
   }
 
   removeTodo(id: string): Observable<ServerResponse> {
-    return this.http.delete<ServerResponse>(environment.API_URL + 'todos/' + id + '/delete');
+    return this.http.delete<ServerResponse>(environment.API_URL + 'todos/' + id);
   }
 
   updateTodo(todo: { _id?: string, text?: string, checked?: boolean }): Observable<Todo> {
-    return this.http.put<Todo>(environment.API_URL + 'todos/' + todo._id + '/update', todo);
+    return this.http.put<Todo>(environment.API_URL + 'todos/' + todo._id, todo);
   }
 
-  findTodo(text: string): Promise<Response> {
-    return fetch(environment.API_URL + 'todos/find' + '?text=' + text);
+  findTodo(text: string): Observable<Todo[]> {
+    return this.http.get<Todo[]>(environment.API_URL + 'todos/search' + '?text=' + text);
   }
 }
 

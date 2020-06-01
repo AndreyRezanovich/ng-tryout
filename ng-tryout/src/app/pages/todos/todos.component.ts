@@ -15,7 +15,6 @@ export class TodosComponent implements OnInit {
   editedTodoIndex: number;
   searchText: string;
   foundTodos: Todo[];
-  buttonName: any = 'Complete todo';
 
 
   constructor(
@@ -32,35 +31,7 @@ export class TodosComponent implements OnInit {
         this.filterTodosArray();
       }
     );
-
-    // this.dataService.fetchTodoList().subscribe((event: {action: string, data: any}) => {
-    //     switch (event.action) {
-    //       case 'find': {
-    //         this.todos = event.data;
-    //       }
-    //     }
-    //     console.log(todoList);
-    //     this.todos = this.todosCopy = todoList;
-    //     this.filterTodosArray();
-    //   }
-    // );
-
-    // const eventSource = new EventSource('http://localhost:4201/todos');
-    // eventSource.addEventListener('message', event => {
-    //   const data = JSON.parse(event.data);
-    //   console.log(data);
-    // });
   }
-
-  // ngOnInit(): void {
-  //   this.dataService.fetchTodoList().subscribe((todoList: Todo[]) => {
-  //       console.log(todoList);
-  //       this.todos = this.todosCopy = todoList;
-  //       this.filterTodosArray();
-  //     }
-  //   );
-  // }
-
 
   deleteTodo(todo: Todo): void {
     this.editedTodoIndex = undefined;
@@ -100,9 +71,7 @@ export class TodosComponent implements OnInit {
     console.log('index', index);
     if (this.editedTodoIndex === index) {
       this.dataService.updateTodo(this.todos[index]).subscribe((newTodo: Todo) => {
-        console.log('updated');
         this.editedTodoIndex = undefined;
-        // this.chRef.detectChanges();
       });
     } else {
       this.editedTodoIndex = index;
@@ -114,10 +83,9 @@ export class TodosComponent implements OnInit {
   }
 
   searchTodo() {
-    this.dataService.findTodo(this.searchText).then((todosArr: any) => {
+    this.dataService.findTodo(this.searchText).subscribe((todosArr: Todo[]) => {
       this.foundTodos = todosArr;
       this.searchText = undefined;
-      console.log(this.foundTodos);
     });
   }
 
