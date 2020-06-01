@@ -52,8 +52,8 @@ export class DataServiceService {
     return this.http.put<Todo>(environment.API_URL + 'todos/' + todo._id + '/update', todo);
   }
 
-  findTodo(text: string): Observable<Todo[]> {
-    return this.http.get<Todo[]>(environment.API_URL + 'todos?text=' + text + '/find');
+  findTodo(text: string): Promise<Response> {
+    return fetch(environment.API_URL + 'todos/find' + '?text=' + text);
   }
 }
 

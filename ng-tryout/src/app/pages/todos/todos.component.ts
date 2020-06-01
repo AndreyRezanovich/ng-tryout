@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DataServiceService, ServerResponse, Status, Todo } from '../../services/data-service.service';
 
 
@@ -19,7 +19,8 @@ export class TodosComponent implements OnInit {
 
 
   constructor(
-    public dataService: DataServiceService
+    public dataService: DataServiceService,
+    private chRef: ChangeDetectorRef
   ) {
   }
 
@@ -31,6 +32,19 @@ export class TodosComponent implements OnInit {
         this.filterTodosArray();
       }
     );
+
+    // this.dataService.fetchTodoList().subscribe((event: {action: string, data: any}) => {
+    //     switch (event.action) {
+    //       case 'find': {
+    //         this.todos = event.data;
+    //       }
+    //     }
+    //     console.log(todoList);
+    //     this.todos = this.todosCopy = todoList;
+    //     this.filterTodosArray();
+    //   }
+    // );
+
     // const eventSource = new EventSource('http://localhost:4201/todos');
     // eventSource.addEventListener('message', event => {
     //   const data = JSON.parse(event.data);
@@ -88,6 +102,7 @@ export class TodosComponent implements OnInit {
       this.dataService.updateTodo(this.todos[index]).subscribe((newTodo: Todo) => {
         console.log('updated');
         this.editedTodoIndex = undefined;
+        // this.chRef.detectChanges();
       });
     } else {
       this.editedTodoIndex = index;
@@ -99,7 +114,7 @@ export class TodosComponent implements OnInit {
   }
 
   searchTodo() {
-    this.dataService.findTodo(this.searchText).subscribe((todosArr: Todo[]) => {
+    this.dataService.findTodo(this.searchText).then((todosArr: any) => {
       this.foundTodos = todosArr;
       this.searchText = undefined;
       console.log(this.foundTodos);
