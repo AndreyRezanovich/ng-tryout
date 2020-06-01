@@ -1,14 +1,29 @@
 <div>
-  <h3>Login</h3>
-  <label>
-    <input type="text" placeholder="Enter Login" [(ngModel)]="credentials.login">
-  </label>
-  <h3>Password</h3>
-  <label>
-    <input type="text" placeholder="Enter Password" [(ngModel)]="credentials.password">
-  </label>
+  <mat-form-field class="example-full-width">
+    <mat-label>Login</mat-label>
+    <label>
+      <input matInput placeholder="@example.com" [(ngModel)]="credentials.login">
+    </label>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>Password</mat-label>
+    <label>
+      <input matInput placeholder="Enter Password" [(ngModel)]="credentials.password">
+    </label>
+  </mat-form-field>
   <br>
   <hr>
-  <button (click)="loginUser()">Login</button>
-  <button (click)="createUser()">Create</button>
+  <button mat-raised-button color="primary" (click)="loginUser()">Login</button>
+  <button mat-raised-button color="primary" (click)="createUser()">Create</button>
+  <!--  <h3>Login</h3>-->
+  <!--  <label>-->
+  <!--    <input type="text" placeholder="Enter Login" [(ngModel)]="credentials.login">-->
+  <!--  </label>-->
+  <!--  <h3>Password</h3>-->
+  <!--  <label>-->
+  <!--    <input type="text" placeholder="Enter Password" [(ngModel)]="credentials.password">-->
+  <!--  </label>-->
+<!--  <button (click)="loginUser()">Login</button>-->
+<!--  <button (click)="createUser()">Create</button>-->
 </div>
