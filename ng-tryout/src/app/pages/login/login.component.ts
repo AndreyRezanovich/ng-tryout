@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
     login: '',
     password: '',
   };
-  // private router: any;
 
   constructor(@Inject(DOCUMENT)
               private document: Document,
@@ -28,6 +27,7 @@ export class LoginComponent implements OnInit {
     if (this.credentials.login && this.credentials.password) {
       this.loginService.login(this.credentials).subscribe(res => {
         console.log(res);
+        localStorage.setItem('token', res);
         this.goToTodoList();
       }, error => {
         console.log(error);

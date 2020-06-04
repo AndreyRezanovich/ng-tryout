@@ -31,6 +31,10 @@ export class DataServiceService {
     return this.http.get<Todo[]>(environment.API_URL + 'todos');
   }
 
+  fetchUsers(): Observable<any> {
+    return this.http.get<any>(environment.API_URL + 'auth/users');
+  }
+
   getTodoById(id): Observable<Todo> {
     return this.http.get<Todo>(environment.API_URL + 'todos/' + id + '/find');
   }

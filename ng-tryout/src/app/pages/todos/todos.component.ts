@@ -25,6 +25,9 @@ export class TodosComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
+    this.dataService.fetchUsers().subscribe((users) => {
+      console.log(users);
+    });
     this.dataService.fetchTodoList().subscribe((todoList: Todo[]) => {
         console.log(todoList);
         this.todos = this.todosCopy = todoList;
