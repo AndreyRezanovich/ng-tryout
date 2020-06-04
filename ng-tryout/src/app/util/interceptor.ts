@@ -2,11 +2,12 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor() {
+  constructor(private router: Router) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -24,6 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
         err => {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 401) {
+              this.router.navigate(['login']);
               console.log('Unauthorized');
             }
           }

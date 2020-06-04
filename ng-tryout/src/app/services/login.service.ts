@@ -24,4 +24,9 @@ export class LoginService {
   create(credentials: LoginCredentials) {
     return this.http.post(environment.API_URL + 'auth/create', credentials);
   }
+
+  refreshToken() {
+    console.log(`${environment.API_URL}auth/refresh`);
+    return this.http.get(`${environment.API_URL}auth/refresh`);
+  }
 }

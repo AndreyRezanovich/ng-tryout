@@ -36,14 +36,19 @@ export class LoginComponent implements OnInit {
   }
 
   goToTodoList(): void {
-    this.router.navigate(['todos']).then(err => err);
+    this.router.navigate(['todos']);
   }
 
   createUser() {
     this.loginService.create(this.credentials).subscribe();
   }
 
+
   ngOnInit(): void {
+    this.loginService.refreshToken().subscribe(() => {
+      this.goToTodoList();
+    }, () => {
+    });
     // console.log('Connecting SSE on login');
     // const evtSource = new EventSource('http://localhost:4201/connection');
     // evtSource.addEventListener('message', event => {
