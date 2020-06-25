@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
   loginUser() {
     if (this.credentials.login && this.credentials.password) {
       this.loginService.login(this.credentials).subscribe(res => {
-        console.log(res);
         localStorage.setItem('token', res);
         this.goToTodoList();
       }, error => {
@@ -49,6 +48,7 @@ export class LoginComponent implements OnInit {
       this.goToTodoList();
     }, () => {
     });
+
     // console.log('Connecting SSE on login');
     // const evtSource = new EventSource('http://localhost:4201/connection');
     // evtSource.addEventListener('message', event => {

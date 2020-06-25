@@ -26,7 +26,6 @@ export class LoginService {
   }
 
   refreshToken() {
-    console.log(`${environment.API_URL}auth/refresh`);
     return this.http.get(`${environment.API_URL}auth/refresh`);
   }
 }

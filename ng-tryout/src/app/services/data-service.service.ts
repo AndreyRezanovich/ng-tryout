@@ -18,6 +18,7 @@ export interface ServerResponse {
   status: Status;
   _id: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -53,6 +54,22 @@ export class DataServiceService {
 
   findTodo(text: string): Observable<Todo[]> {
     return this.http.get<Todo[]>(environment.API_URL + 'todos/search' + '?text=' + text);
+  }
+
+  upload(file) {
+    // return this.http.post(environment.API_URL + 'todos/upload',  {
+    //   reportProgress: true,
+    //   observe: 'events'
+    // });
+    // console.log(file);
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    return this.http.post<any>(environment.API_URL + 'todos/upload',
+      formData, {
+        //   // reportProgress: true,
+        //   // observe: 'events'
+      }
+    );
   }
 }
 

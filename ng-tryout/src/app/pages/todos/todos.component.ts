@@ -1,5 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DataServiceService, ServerResponse, Status, Todo } from '../../services/data-service.service';
+import { element } from 'protractor';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
 
 
 @Component({
@@ -15,9 +19,13 @@ export class TodosComponent implements OnInit {
   editedTodoIndex: number;
   searchText: string;
   foundTodos: Todo[];
+  file: File;
+  selectedFiles: any;
 
 
   constructor(
+    private http: HttpClient ,
+
     public dataService: DataServiceService,
     private chRef: ChangeDetectorRef
   ) {
@@ -26,10 +34,8 @@ export class TodosComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.dataService.fetchUsers().subscribe((users) => {
-      console.log(users);
     });
     this.dataService.fetchTodoList().subscribe((todoList: Todo[]) => {
-        console.log(todoList);
         this.todos = this.todosCopy = todoList;
         this.filterTodosArray();
       }
@@ -71,7 +77,6 @@ export class TodosComponent implements OnInit {
   }
 
   editTodo(index) {
-    console.log('index', index);
     if (this.editedTodoIndex === index) {
       this.dataService.updateTodo(this.todos[index]).subscribe((newTodo: Todo) => {
         this.editedTodoIndex = undefined;
@@ -107,4 +112,22 @@ export class TodosComponent implements OnInit {
       todo = updatedTodo;
     });
   }
+
+  fileSelection(event) {
+    this.file = event.target.files[0];
+  }
+
+  uploadFile(file) {
+    // console.log(file);
+    // this.dataService.upload(file);
+
+    // const uploadData = new FormData();
+    // uploadData.append('File', this.file, this.file.name);
+
+    // console.log('file', file);
+    this.dataService.upload(file).subscribe(result => {
+        console.log('Result:', result);
+      });
+  }
+
 }

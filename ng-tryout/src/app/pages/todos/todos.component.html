@@ -43,24 +43,7 @@
       </li>
     </ul>
     <hr>
+    <input type="file" (change)="fileSelection($event)" placeholder="Upload file..."/>
+    <button mat-raised-button color="primary" type="button" [disabled]="!file" (click)="uploadFile(file)">Upload</button>
   </div>
-
-  <!--    <div>-->
-  <!--      <label>-->
-  <!--        <input type="text" placeholder="Filter list" (input)="filterTodosArray($event)">-->
-  <!--      </label>-->
-  <!--    </div>-->
-  <!--    <div>-->
-  <!--      <label>-->
-  <!--        <input class="todo_header_input" type="text" placeholder="New Todo" [(ngModel)]="todoText">-->
-  <!--      </label>-->
-  <!--      <button (click)="addTodo()" class="add_button">Add Todo</button>-->
-  <!--    </div>-->
-  <!--      <span class="edit"><button class="edit_button"-->
-  <!--                                 (click)="editTodo(i)">{{editedTodoIndex !== i ? 'Edit' : 'Save'}}</button></span>-->
-  <!--      <span class="delete"><button class="delete_button" (click)="deleteTodo(todo)">Delete</button></span>-->
-  <!--    <label>-->
-  <!--      <input type="text" placeholder="Search Todo" [(ngModel)]="searchText">-->
-  <!--    </label>-->
-  <!--    <span><button (click)="searchTodo()">Search</button><button (click)="resetTodo()">Reset</button></span>-->
 </div>
