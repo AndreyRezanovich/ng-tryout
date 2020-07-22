@@ -27,7 +27,6 @@ export class DataServiceService {
   constructor(private http: HttpClient) {
   }
 
-
   fetchTodoList(): Observable<Todo[]> {
     return this.http.get<Todo[]>(environment.API_URL + 'todos');
   }
@@ -57,19 +56,12 @@ export class DataServiceService {
   }
 
   upload(file) {
-    // return this.http.post(environment.API_URL + 'todos/upload',  {
-    //   reportProgress: true,
-    //   observe: 'events'
-    // });
-    // console.log(file);
     const formData: FormData = new FormData();
     formData.append('file', file);
-    return this.http.post<any>(environment.API_URL + 'todos/upload',
-      formData, {
-        //   // reportProgress: true,
-        //   // observe: 'events'
-      }
-    );
+    return this.http.post<object>(environment.API_URL + 'todos/upload', formData);
+  }
+
+  download(file) {
+    return this.http.post(environment.API_URL + 'todos/download', file);
   }
 }
-

@@ -14,7 +14,7 @@
         <input matInput placeholder=" " [(ngModel)]="todoText">
       </label>
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="addTodo()">Add Todo</button>
+    <button mat-raised-button color="primary" [disabled]="!todoText" (click)="addTodo()">Add Todo</button>
   </div>
   <div class="q">
     <ul>
@@ -44,6 +44,22 @@
     </ul>
     <hr>
     <input type="file" (change)="fileSelection($event)" placeholder="Upload file..."/>
-    <button mat-raised-button color="primary" type="button" [disabled]="!file" (click)="uploadFile(file)">Upload</button>
+    <button mat-raised-button color="primary" type="button" [disabled]="!file" (click)="uploadFile(file)">Upload
+    </button>
+    <button mat-raised-button color="primary" type="button" (click)="downloadFile()">Download
+    </button>
+    <hr>
+    <ng-container *ngIf="newObj && newObj[0].length">
+      <table border="1" width="50%" cellpadding="4">
+        <th *ngFor="let row of newObj[0]">
+          {{row[0]}}
+        </th>
+        <tr *ngFor="let row of newObj">
+          <td *ngFor="let cell of row">
+            {{cell[1]}}
+          </td>
+        </tr>
+      </table>
+    </ng-container>
   </div>
 </div>

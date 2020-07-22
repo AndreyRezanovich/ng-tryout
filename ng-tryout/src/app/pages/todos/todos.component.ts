@@ -1,9 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataServiceService, ServerResponse, Status, Todo } from '../../services/data-service.service';
-import { element } from 'protractor';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-
 
 
 @Component({
@@ -20,14 +16,12 @@ export class TodosComponent implements OnInit {
   searchText: string;
   foundTodos: Todo[];
   file: File;
-  selectedFiles: any;
+  newObj: any;
+  private error: any;
 
 
   constructor(
-    private http: HttpClient ,
-
     public dataService: DataServiceService,
-    private chRef: ChangeDetectorRef
   ) {
   }
 
@@ -118,16 +112,35 @@ export class TodosComponent implements OnInit {
   }
 
   uploadFile(file) {
-    // console.log(file);
-    // this.dataService.upload(file);
-
-    // const uploadData = new FormData();
-    // uploadData.append('File', this.file, this.file.name);
-
-    // console.log('file', file);
     this.dataService.upload(file).subscribe(result => {
-        console.log('Result:', result);
-      });
+      if (result[0]) {
+        this.newObj = result[0].map(res => Object.entries(res));
+        console.log(result[0]);
+      } else {
+        alert('File is empty');
+        this.newObj = undefined;
+      }
+    }, err => {
+      this.error = err.message;
+      alert('Incorrectly populated table');
+      if (err) {
+        this.newObj = undefined;
+      }
+    });
   }
 
+  downloadFile() {
+    const file = this.newObj;
+    return this.dataService.download(file).subscribe(() => {
+      const newFile = new File([file], new Date().toISOString() + '.csv', {
+        type: 'text/csv'
+      });
+      const a = document.createElement('a');
+      const url = URL.createObjectURL(newFile);
+      a.href = url;
+      a.download = newFile.name;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
 }
