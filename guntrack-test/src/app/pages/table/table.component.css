@@ -1,0 +1,9 @@
+table {
+  width: 100%;
+}
+
+.head {
+  margin:  2em auto;
+  display: flex;
+  justify-content: space-around;
+}
